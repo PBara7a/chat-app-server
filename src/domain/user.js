@@ -1,7 +1,7 @@
-import dbClient from "../utils/dbClient.js";
-import bcrypt from "bcrypt";
+const dbClient = require("../utils/dbClient.js");
+const bcrypt = require("bcrypt");
 
-export default class User {
+class User {
   static fromDb(user) {
     return new User(
       user.id,
@@ -133,3 +133,5 @@ export default class User {
     return foundUsers.map((user) => User.fromDb(user));
   }
 }
+
+module.exports = User;
