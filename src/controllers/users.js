@@ -1,4 +1,7 @@
 const User = require("../domain/user");
+const jwt = require("jsonwebtoken");
+const { sendDataResponse, sendMessageResponse } = require("../utils/responses");
+const { JWT_EXPIRY, JWT_SECRET } = require("../utils/config");
 
 const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body);
@@ -12,11 +15,17 @@ const create = async (req, res) => {
 
     const createdUser = await userToCreate.save();
 
-    res.json(createdUser.toJSON());
+    const token = generateJwt(createdUser.id);
+
+    return sendDataResponse(res, 200, { token, ...createdUser.toJSON() });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    return sendMessageResponse(res, 500, e.message);
   }
 };
+
+function generateJwt(userId) {
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRY });
+}
 
 module.exports = {
   create,
