@@ -1,7 +1,7 @@
 const User = require("../domain/user");
 const jwt = require("jsonwebtoken");
+const generateJwt = require("../utils/generateJwt");
 const { sendDataResponse, sendMessageResponse } = require("../utils/responses");
-const { JWT_EXPIRY, JWT_SECRET } = require("../utils/config");
 
 const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body);
@@ -22,10 +22,6 @@ const create = async (req, res) => {
     return sendMessageResponse(res, 500, e.message);
   }
 };
-
-function generateJwt(userId) {
-  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRY });
-}
 
 module.exports = {
   create,
