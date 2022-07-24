@@ -23,12 +23,10 @@ class Contact {
 
   toJSON() {
     return {
-      contact: {
-        id: this.id,
-        user_id: this.userId,
-        name: this.name,
-        contact_number: this.contactNum,
-      },
+      id: this.id,
+      user_id: this.userId,
+      name: this.name,
+      contact_number: this.contactNum,
     };
   }
 

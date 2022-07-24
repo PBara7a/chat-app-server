@@ -24,6 +24,19 @@ const create = async (req, res) => {
   }
 };
 
+const user = async (req, res) => {
+  const id = Number(req.params.id);
+
+  const foundUser = await User.findById(id);
+
+  if (!foundUser) {
+    return sendMessageResponse(res, 400, "User does not exist");
+  }
+
+  return sendDataResponse(res, 200, foundUser);
+};
+
 module.exports = {
   create,
+  user,
 };
