@@ -8,7 +8,8 @@ class User {
       user.profile.firstName,
       user.profile.lastName,
       user.email,
-      user.password
+      user.password,
+      user.number
     );
   }
 
@@ -21,12 +22,13 @@ class User {
     return new User(null, first_name, last_name, email, passwordHash);
   }
 
-  constructor(id, firstName, lastName, email, passwordHash) {
+  constructor(id, firstName, lastName, email, passwordHash, number) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.passwordHash = passwordHash;
+    this.number = number;
   }
 
   toJSON() {
@@ -36,6 +38,7 @@ class User {
         first_name: this.firstName,
         last_name: this.lastName,
         email: this.email,
+        number: this.number,
       },
     };
   }
@@ -45,6 +48,7 @@ class User {
       data: {
         email: this.email,
         password: this.passwordHash,
+        number: this.number,
         profile: {
           create: {
             firstName: this.firstName,
@@ -68,6 +72,7 @@ class User {
       data: {
         email: this.email,
         password: this.passwordHash,
+        number: this.number,
         profile: {
           update: {
             firstName: this.firstName,
@@ -85,6 +90,10 @@ class User {
 
   static async findByEmail(email) {
     return User._findByUnique("email", email);
+  }
+
+  static async findByNumber(number) {
+    return User._findByUnique("number", number);
   }
 
   static async findById(id) {

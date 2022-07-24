@@ -1,10 +1,11 @@
 const User = require("../domain/user");
-const jwt = require("jsonwebtoken");
 const generateJwt = require("../utils/generateJwt");
 const { sendDataResponse, sendMessageResponse } = require("../utils/responses");
+const generateContactNumber = require("../utils/generateContactNumber");
 
 const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body);
+  userToCreate.number = generateContactNumber();
 
   try {
     const existingUser = await User.findByEmail(userToCreate.email);
