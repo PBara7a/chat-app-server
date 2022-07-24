@@ -30,5 +30,5 @@ model Contact {
   user        User       @relation(fields: [userId], references: [id])
   userId      Int
   name        String
-  contactNum  String   
+  contactNum  Int   
 }
