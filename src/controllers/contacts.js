@@ -13,7 +13,7 @@ const contacts = async (req, res) => {
   }
 };
 
-const createContact = async (req, res) => {
+const create = async (req, res) => {
   const contactToCreate = await Contact.fromJson(req.body);
 
   try {
@@ -25,4 +25,4 @@ const createContact = async (req, res) => {
   }
 };
 
-module.exports = { createContact, contacts };
+module.exports = { create, contacts };
