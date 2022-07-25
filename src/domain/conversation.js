@@ -72,7 +72,7 @@ class Conversation {
     const query = {
       where: { ...whereData },
       include: {
-        participants: true,
+        participants: { include: { profile: true } },
       },
     };
 
