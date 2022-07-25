@@ -11,11 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const authRouter = require("./routers/auth");
 const usersRouter = require("./routers/users");
-const contactsRouter = require("./routers/contacts");
+const conversationsRouter = require("./routers/conversations");
 
 app.use("/", authRouter);
 app.use("/users", usersRouter);
-app.use("/contacts", contactsRouter);
+app.use("/conversations", conversationsRouter);
 
 app.get("*", (req, res) => {
   res.status(404).json({

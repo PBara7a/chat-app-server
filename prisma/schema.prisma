@@ -8,13 +8,52 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+// model User {
+//   id                        Int             @id @default(autoincrement())
+//   email                     String          @unique
+//   password                  String
+//   profile                   Profile?
+//   number                    Int             @unique
+//   contacts                  Contact[]
+//   ownedConversations        Conversation[]
+//   participantConversations  Conversation[]  @relation(name: "participant")
+// }
+
+// model Profile {
+//   id          Int        @id @default(autoincrement())
+//   userId      Int        @unique
+//   user        User       @relation(fields: [userId], references: [id])
+//   firstName   String
+//   lastName    String
+// }
+
+// model Contact {
+//   id          Int        @id @default(autoincrement())
+//   user        User       @relation(fields: [userId], references: [id])
+//   userId      Int
+//   name        String
+//   contactNum  Int   
+// }
+
+// model Conversation {
+//   id             Int     @id @default(autoincrement())
+//   owner          User    @relation(fields: [ownerId], references: [id])
+//   ownerId        Int
+//   name           String
+//   participants   User[]  @relation(name: "participant")
+// }
+
+
 model User {
-  id          Int        @id @default(autoincrement())
-  email       String     @unique
-  password    String
-  profile     Profile?
-  number      Int        @unique
-  contacts    Contact[]
+  id                        Int             @id @default(autoincrement())
+  email                     String          @unique
+  password                  String
+  profile                   Profile?
+  number                    Int             @unique
+  contacts                  User[]          @relation(name: "contacts")
+  contactsRelation          User[]          @relation(name: "contacts")
+  ownedConversations        Conversation[]
+  participantConversations  Conversation[]  @relation(name: "participant")
 }
 
 model Profile {
@@ -25,10 +64,10 @@ model Profile {
   lastName    String
 }
 
-model Contact {
-  id          Int        @id @default(autoincrement())
-  user        User       @relation(fields: [userId], references: [id])
-  userId      Int
-  name        String
-  contactNum  Int   
+model Conversation {
+  id             Int     @id @default(autoincrement())
+  owner          User    @relation(fields: [ownerId], references: [id])
+  ownerId        Int
+  name           String
+  participants   User[]  @relation(name: "participant")
 }

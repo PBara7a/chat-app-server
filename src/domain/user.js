@@ -9,7 +9,9 @@ class User {
       user.profile.lastName,
       user.email,
       user.password,
-      user.number
+      user.number,
+      user.contacts,
+      user.ownedConversations
     );
   }
 
@@ -22,13 +24,24 @@ class User {
     return new User(null, first_name, last_name, email, passwordHash);
   }
 
-  constructor(id, firstName, lastName, email, passwordHash, number) {
+  constructor(
+    id,
+    firstName,
+    lastName,
+    email,
+    passwordHash,
+    number,
+    contacts,
+    conversations
+  ) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.passwordHash = passwordHash;
     this.number = number;
+    this.contacts = contacts;
+    this.conversations = conversations;
   }
 
   toJSON() {
@@ -39,6 +52,8 @@ class User {
         last_name: this.lastName,
         email: this.email,
         number: this.number,
+        contacts: this.contacts,
+        conversations: this.conversations,
       },
     };
   }
@@ -64,7 +79,13 @@ class User {
     return User.fromDb(createdUser);
   }
 
-  async update() {
+  async update({ newContactId }) {
+    const connectNewContact = {};
+
+    if (newContactId) {
+      connectNewContact.connect = { id: newContactId };
+    }
+
     const updatedUser = await dbClient.user.update({
       where: {
         id: this.id,
@@ -79,9 +100,13 @@ class User {
             lastName: this.lastName,
           },
         },
+        contacts: connectNewContact,
+        ownedConversations: {},
       },
       include: {
         profile: true,
+        contacts: true,
+        ownedConversations: true,
       },
     });
 
@@ -111,6 +136,8 @@ class User {
       },
       include: {
         profile: true,
+        contacts: { include: { profile: true } },
+        ownedConversations: true,
       },
     });
 

@@ -2,6 +2,7 @@ const User = require("../domain/user");
 const generateJwt = require("../utils/generateJwt");
 const { sendDataResponse, sendMessageResponse } = require("../utils/responses");
 const generateContactNumber = require("../utils/generateContactNumber");
+const formatContactDetails = require("../utils/formatContactDetails");
 
 const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body);
@@ -36,7 +37,45 @@ const user = async (req, res) => {
   return sendDataResponse(res, 200, foundUser);
 };
 
+const newContact = async (req, res) => {
+  const id = Number(req.params.id);
+  const { number } = req.body;
+
+  const contact = await User.findByNumber(number);
+
+  if (!contact) {
+    sendMessageResponse(res, 500, "Invalid contact number");
+  }
+
+  try {
+    const user = await User.findById(id);
+    const userWithNewContact = await user.update({ newContactId: contact.id });
+
+    sendDataResponse(res, 200, userWithNewContact);
+  } catch (e) {
+    sendMessageResponse(res, 500, e.message);
+  }
+};
+
+const contacts = async (req, res) => {
+  const id = Number(req.params.id);
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    sendMessageResponse(res, 500, "Invalid user id");
+  }
+
+  const formattedContacts = user.contacts.map((contact) =>
+    formatContactDetails(contact)
+  );
+
+  sendDataResponse(res, 200, formattedContacts);
+};
+
 module.exports = {
   create,
   user,
+  newContact,
+  contacts,
 };
