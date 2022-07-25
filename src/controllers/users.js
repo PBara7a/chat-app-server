@@ -44,16 +44,16 @@ const newContact = async (req, res) => {
   const contact = await User.findByNumber(number);
 
   if (!contact) {
-    sendMessageResponse(res, 500, "Invalid contact number");
+    return sendMessageResponse(res, 500, "Invalid contact number");
   }
 
   try {
     const user = await User.findById(id);
     const userWithNewContact = await user.update({ newContactId: contact.id });
 
-    sendDataResponse(res, 200, userWithNewContact);
+    return sendDataResponse(res, 200, userWithNewContact);
   } catch (e) {
-    sendMessageResponse(res, 500, e.message);
+    return sendMessageResponse(res, 500, e.message);
   }
 };
 
