@@ -78,6 +78,7 @@ class Conversation {
     const query = {
       where: { ...whereData },
       include: {
+        messages: true,
         participants: { include: { profile: true } },
       },
     };
