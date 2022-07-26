@@ -6,7 +6,8 @@ class Conversation {
       conversation.id,
       conversation.ownerId,
       conversation.name,
-      conversation.participants
+      conversation.participants,
+      conversation.messages
     );
   }
 
@@ -14,11 +15,12 @@ class Conversation {
     return new Conversation(null, owner_id, name, participants);
   }
 
-  constructor(id, ownerId, name, participants) {
+  constructor(id, ownerId, name, participants, messages) {
     this.id = id;
     this.ownerId = ownerId;
     this.name = name;
     this.participants = participants;
+    this.messages = messages;
   }
 
   toJSON() {
@@ -27,6 +29,7 @@ class Conversation {
       owner_id: this.ownerId,
       name: this.name,
       participants: this.participants,
+      messages: this.messages,
     };
   }
 
@@ -58,6 +61,9 @@ class Conversation {
     const foundConversation = await dbClient.conversation.findUnique({
       where: {
         [key]: value,
+      },
+      include: {
+        messages: true,
       },
     });
 

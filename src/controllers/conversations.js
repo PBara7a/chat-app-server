@@ -25,4 +25,16 @@ const conversations = async (req, res) => {
   }
 };
 
-module.exports = { create, conversations };
+const conversation = async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const foundConversation = await Conversation.findById(id);
+
+    return sendDataResponse(res, 200, foundConversation);
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message);
+  }
+};
+
+module.exports = { create, conversations, conversation };
