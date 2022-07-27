@@ -1,3 +1,4 @@
+// const { conversation } = require("../utils/dbClient.js");
 const dbClient = require("../utils/dbClient.js");
 
 class Conversation {
@@ -54,7 +55,18 @@ class Conversation {
   }
 
   static async findAllFromUser(userId) {
-    return Conversation._findMany({ whereData: { ownerId: userId } });
+    const allConversations = await Conversation._findMany({});
+    const filteredConversations = allConversations.filter((conversation) => {
+      const isOwner = conversation.ownerId === userId;
+
+      const isParticipant = conversation.participants.find(
+        (participant) => participant.id === userId
+      );
+
+      if (isOwner || isParticipant) return conversation;
+    });
+
+    return filteredConversations;
   }
 
   static async _findByUnique(key, value) {
@@ -63,7 +75,15 @@ class Conversation {
         [key]: value,
       },
       include: {
-        messages: true,
+        messages: {
+          include: {
+            sender: {
+              include: {
+                profile: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -78,7 +98,15 @@ class Conversation {
     const query = {
       where: { ...whereData },
       include: {
-        messages: true,
+        messages: {
+          include: {
+            sender: {
+              include: {
+                profile: true,
+              },
+            },
+          },
+        },
         participants: { include: { profile: true } },
       },
     };
