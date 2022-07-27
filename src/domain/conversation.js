@@ -1,4 +1,3 @@
-// const { conversation } = require("../utils/dbClient.js");
 const dbClient = require("../utils/dbClient.js");
 
 class Conversation {
