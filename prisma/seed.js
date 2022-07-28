@@ -2,6 +2,7 @@ const Conversation = require("../src/domain/conversation");
 const Message = require("../src/domain/message");
 const User = require("../src/domain/user");
 const generateContactNumber = require("../src/utils/generateContactNumber");
+const { encrypt } = require("../src/utils/crypto");
 
 async function seed() {
   //users
@@ -51,9 +52,9 @@ async function seed() {
   const conversation = await conversationToCreate.save();
 
   // messages
-  const messageToCreate1 = new Message(null, 1, 1, "Hi");
-  const messageToCreate2 = new Message(null, 2, 1, "Hi, how are you?");
-  const messageToCreate3 = new Message(null, 1, 1, "Good");
+  const messageToCreate1 = new Message(null, 1, 1, encrypt("Hi"));
+  const messageToCreate2 = new Message(null, 2, 1, encrypt("Hi, how are you?"));
+  const messageToCreate3 = new Message(null, 1, 1, encrypt("Good"));
 
   const message1 = await messageToCreate1.save();
   const message2 = await messageToCreate2.save();

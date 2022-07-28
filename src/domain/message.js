@@ -1,17 +1,22 @@
 const dbClient = require("../utils/dbClient.js");
+const crypto = require("../utils/crypto");
+
+const password = process.env.PASSWORD;
 
 class Message {
   static fromDb(message) {
+    const decryptedMessage = crypto.decrypt(message.text, password);
     return new Message(
       message.id,
       message.senderId,
       message.conversationId,
-      message.text
+      decryptedMessage
     );
   }
 
   static async fromJson({ sender_id, conversation_id, text }) {
-    return new Message(null, sender_id, conversation_id, text);
+    const encryptedText = crypto.encrypt(text, password);
+    return new Message(null, sender_id, conversation_id, encryptedText);
   }
 
   constructor(id, senderId, conversationId, text) {
