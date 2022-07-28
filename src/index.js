@@ -12,11 +12,18 @@ const io = new Server(server, {
   },
 });
 
+const contacts = {};
+
 io.on("connection", (socket) => {
   const number = socket.handshake.query.number;
-  socket.join(number); // use later to send only to this number
 
-  console.log(`User Connected: ${socket.id}`);
+  socket.join(number);
+
+  console.log(`User Connected: ${number}`);
+
+  socket.on("user-connected", (number) => {
+    contacts[number] = socket.id;
+  });
 
   socket.on("send-message", async (data, recipients) => {
     const messageToCreate = await Message.fromJson(data);
@@ -27,7 +34,9 @@ io.on("connection", (socket) => {
       console.error(e);
     }
 
-    socket.broadcast.emit("received-message");
+    recipients.forEach((recipient) => {
+      socket.to(contacts[recipient]).emit("received-message");
+    });
   });
 });
 

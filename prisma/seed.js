@@ -42,12 +42,11 @@ async function seed() {
   await user1.update({ newContactId: contactToAdd2.id });
 
   // conversations
-  const conversationToCreate = new Conversation(
-    null,
+  const conversationToCreate = new Conversation(null, user1.id, "Group chat", [
     user1.id,
-    "Group chat",
-    [2, 3]
-  );
+    2,
+    3,
+  ]);
 
   const conversation = await conversationToCreate.save();
 
