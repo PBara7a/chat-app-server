@@ -25,4 +25,17 @@ const messages = async (req, res) => {
   }
 };
 
-module.exports = { create, messages };
+const remove = async (req, res) => {
+  const { message_id: id } = req.body;
+
+  try {
+    const foundMessage = await Message.findById(id);
+    const deletedMessage = await foundMessage.delete();
+
+    return sendDataResponse(res, 200, deletedMessage);
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message);
+  }
+};
+
+module.exports = { create, messages, remove };

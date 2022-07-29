@@ -47,6 +47,16 @@ class Message {
     return Message.fromDb(createdMessage);
   }
 
+  async delete() {
+    const deletedMessage = await dbClient.message.delete({
+      where: {
+        id: this.id,
+      },
+    });
+
+    return Message.fromDb(deletedMessage);
+  }
+
   static async findById(id) {
     return Message._findByUnique("id", id);
   }
