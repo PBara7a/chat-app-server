@@ -6,6 +6,6 @@ router.get("/:conversationId", messagesController.messages);
 
 router.post("/", messagesController.create);
 
-router.delete("/", messagesController.remove);
+router.delete("/:id", messagesController.remove);
 
 module.exports = router;

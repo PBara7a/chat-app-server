@@ -26,7 +26,7 @@ const messages = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-  const { message_id: id } = req.body;
+  const id = Number(req.params.id);
 
   try {
     const foundMessage = await Message.findById(id);
