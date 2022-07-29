@@ -28,6 +28,8 @@ io.on("connection", (socket) => {
   socket.on("send-message", async (data, recipients) => {
     const messageToCreate = await Message.fromJson(data);
 
+    const conversationId = data.conversation_id;
+
     try {
       await messageToCreate.save();
     } catch (e) {
@@ -35,7 +37,7 @@ io.on("connection", (socket) => {
     }
 
     recipients.forEach((recipient) => {
-      socket.to(contacts[recipient]).emit("received-message");
+      socket.to(contacts[recipient]).emit("received-message", conversationId);
     });
   });
 });

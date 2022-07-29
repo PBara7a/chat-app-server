@@ -1,6 +1,5 @@
 const dbClient = require("../utils/dbClient.js");
 const { decrypt } = require("../utils/crypto");
-const { message } = require("../utils/dbClient.js");
 
 class Conversation {
   static fromDb(conversation) {
