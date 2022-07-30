@@ -80,15 +80,14 @@ class User {
   }
 
   async update({ newContactId, deleteContactId }) {
-    const connectNewContact = {};
-    const disconnectContact = {};
+    const connectData = {};
 
     if (newContactId) {
-      connectNewContact.connect = { id: newContactId };
+      connectData.connect = { id: newContactId };
     }
 
     if (deleteContactId) {
-      disconnectContact.disconnect = { id: deleteContactId };
+      connectData.disconnect = { id: deleteContactId };
     }
 
     const updatedUser = await dbClient.user.update({
@@ -105,8 +104,7 @@ class User {
             lastName: this.lastName,
           },
         },
-        contacts: connectNewContact,
-        contacts: disconnectContact,
+        contacts: connectData,
         ownedConversations: {},
       },
       include: {
