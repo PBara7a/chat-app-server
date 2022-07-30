@@ -57,6 +57,28 @@ const newContact = async (req, res) => {
   }
 };
 
+const deleteContact = async (req, res) => {
+  const id = Number(req.params.id);
+  const { number } = req.body;
+
+  const contact = await User.findByNumber(number);
+
+  if (!contact) {
+    return sendMessageResponse(res, 500, "Invalid contact number");
+  }
+
+  try {
+    const user = await User.findById(id);
+    const updatedUser = await user.update({
+      deleteContactId: contact.id,
+    });
+
+    return sendDataResponse(res, 200, updatedUser);
+  } catch (e) {
+    return sendMessageResponse(res, 500, e.message);
+  }
+};
+
 const contacts = async (req, res) => {
   const id = Number(req.params.id);
 
@@ -78,4 +100,5 @@ module.exports = {
   user,
   newContact,
   contacts,
+  deleteContact,
 };
