@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const conversationsController = require("../controllers/conversations");
+const validateAuthentication = require("../middleware/auth");
+const { create, conversations } = require("../controllers/conversations");
 
-router.get("/:userId", conversationsController.conversations);
-router.get("/:id/messages", conversationsController.conversation);
+router.get("/:userId", validateAuthentication, conversations);
 
-router.post("/", conversationsController.create);
+router.post("/", validateAuthentication, create);
 
 module.exports = router;

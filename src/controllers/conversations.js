@@ -14,10 +14,10 @@ const create = async (req, res) => {
 };
 
 const conversations = async (req, res) => {
-  const userId = Number(req.params.userId);
+  const { id } = req.user;
 
   try {
-    const foundConversations = await Conversation.findAllFromUser(userId);
+    const foundConversations = await Conversation.findAllFromUser(id);
 
     return sendDataResponse(res, 200, foundConversations);
   } catch (e) {
@@ -25,16 +25,4 @@ const conversations = async (req, res) => {
   }
 };
 
-const conversation = async (req, res) => {
-  const id = Number(req.params.id);
-
-  try {
-    const foundConversation = await Conversation.findById(id);
-
-    return sendDataResponse(res, 200, foundConversation);
-  } catch (e) {
-    return sendMessageResponse(res, 500, e.message);
-  }
-};
-
-module.exports = { create, conversations, conversation };
+module.exports = { create, conversations };
