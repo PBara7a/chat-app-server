@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const messagesController = require("../controllers/messages");
+const validateAuthentication = require("../middleware/auth");
+const { create, remove } = require("../controllers/messages");
 
-router.get("/:conversationId", messagesController.messages);
+router.post("/", validateAuthentication, create);
 
-router.post("/", messagesController.create);
-
-router.delete("/:id", messagesController.remove);
+router.delete("/:id", validateAuthentication, remove);
 
 module.exports = router;

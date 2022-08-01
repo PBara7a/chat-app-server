@@ -13,18 +13,6 @@ const create = async (req, res) => {
   }
 };
 
-const messages = async (req, res) => {
-  const conversationId = Number(req.params.conversationId);
-
-  try {
-    const foundMessages = await Message.findAllFromConversation(conversationId);
-
-    return sendDataResponse(res, 200, foundMessages);
-  } catch (e) {
-    return sendMessageResponse(res, 500, e.message);
-  }
-};
-
 const remove = async (req, res) => {
   const id = Number(req.params.id);
 
@@ -38,4 +26,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { create, messages, remove };
+module.exports = { create, remove };
