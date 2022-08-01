@@ -26,7 +26,7 @@ const create = async (req, res) => {
 };
 
 const user = async (req, res) => {
-  const id = Number(req.params.id);
+  const { id } = req.user;
 
   const foundUser = await User.findById(id);
 
@@ -38,7 +38,7 @@ const user = async (req, res) => {
 };
 
 const newContact = async (req, res) => {
-  const id = Number(req.params.id);
+  const { id } = req.user;
   const { number } = req.body;
 
   const contact = await User.findByNumber(number);
@@ -58,7 +58,7 @@ const newContact = async (req, res) => {
 };
 
 const deleteContact = async (req, res) => {
-  const id = Number(req.params.id);
+  const { id } = req.user;
   const { number } = req.body;
 
   const contact = await User.findByNumber(number);
@@ -80,7 +80,7 @@ const deleteContact = async (req, res) => {
 };
 
 const contacts = async (req, res) => {
-  const id = Number(req.params.id);
+  const { id } = req.user;
 
   const user = await User.findById(id);
 
