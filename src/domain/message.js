@@ -10,20 +10,22 @@ class Message {
       message.id,
       message.senderId,
       message.conversationId,
-      decryptedMessage
+      decryptedMessage,
+      message.isGif
     );
   }
 
-  static async fromJson({ sender_id, conversation_id, text }) {
+  static async fromJson({ sender_id, conversation_id, text, is_gif }) {
     const encryptedText = crypto.encrypt(text, password);
-    return new Message(null, sender_id, conversation_id, encryptedText);
+    return new Message(null, sender_id, conversation_id, encryptedText, is_gif);
   }
 
-  constructor(id, senderId, conversationId, text) {
+  constructor(id, senderId, conversationId, text, isGif) {
     this.id = id;
     this.senderId = senderId;
     this.conversationId = conversationId;
     this.text = text;
+    this.isGif = isGif;
   }
 
   toJSON() {
@@ -32,6 +34,7 @@ class Message {
       sender_id: this.senderId,
       conversation_id: this.conversationId,
       text: this.text,
+      is_gif: this.isGif,
     };
   }
 
@@ -41,6 +44,7 @@ class Message {
         senderId: this.senderId,
         conversationId: this.conversationId,
         text: this.text,
+        isGif: this.isGif,
       },
     });
 
