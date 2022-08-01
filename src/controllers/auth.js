@@ -17,6 +17,9 @@ const login = async (req, res) => {
 
   try {
     const foundUser = await User.findByEmail(email);
+    delete foundUser.contacts;
+    delete foundUser.conversations;
+
     const areCredentialsValid = await validateCredentials(password, foundUser);
 
     if (!areCredentialsValid) {

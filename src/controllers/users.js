@@ -50,6 +50,7 @@ const newContact = async (req, res) => {
   try {
     const user = await User.findById(id);
     const userWithNewContact = await user.update({ newContactId: contact.id });
+    delete userWithNewContact.conversations;
 
     return sendDataResponse(res, 200, userWithNewContact);
   } catch (e) {
@@ -72,6 +73,8 @@ const deleteContact = async (req, res) => {
     const updatedUser = await user.update({
       deleteContactId: contact.id,
     });
+
+    delete updatedUser.conversations;
 
     return sendDataResponse(res, 200, updatedUser);
   } catch (e) {
