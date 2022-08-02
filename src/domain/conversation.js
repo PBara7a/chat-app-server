@@ -1,5 +1,4 @@
 const dbClient = require("../utils/dbClient.js");
-const { decrypt } = require("../utils/crypto");
 
 class Conversation {
   static fromDb(conversation) {
@@ -65,12 +64,6 @@ class Conversation {
 
       if (isOwner || isParticipant) return conversation;
     });
-
-    filteredConversations.forEach((conversation) =>
-      conversation.messages.forEach(
-        (message) => (message.text = decrypt(message.text))
-      )
-    );
 
     return filteredConversations;
   }

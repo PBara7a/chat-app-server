@@ -52,9 +52,24 @@ async function seed() {
   const conversation = await conversationToCreate.save();
 
   // messages
-  const messageToCreate1 = new Message(null, 1, 1, encrypt("Hi"));
-  const messageToCreate2 = new Message(null, 2, 1, encrypt("Hi, how are you?"));
-  const messageToCreate3 = new Message(null, 1, 1, encrypt("Good"));
+  const messageToCreate1 = new Message(
+    null,
+    1,
+    1,
+    "VTJGc2RHVmtYMSt3TmhJU21TNlZoOWkzQXhkZm5mcEFOSVZ4SEFvOUY2dz0="
+  );
+  const messageToCreate2 = new Message(
+    null,
+    2,
+    1,
+    "VTJGc2RHVmtYMTkyYVZMTnI1djlRaGg4eUs0c3BlYUlaWVFVdFA5TGRyaC80QkNWLzFZSzVDM0dEZkRYdjd1MQ=="
+  );
+  const messageToCreate3 = new Message(
+    null,
+    1,
+    1,
+    "VTJGc2RHVmtYMS92YXJXV3NJL2MwUUVTa0RiWHdZUS9CQ2JWZUQ5UXBROD0="
+  );
 
   const message1 = await messageToCreate1.save();
   const message2 = await messageToCreate2.save();
