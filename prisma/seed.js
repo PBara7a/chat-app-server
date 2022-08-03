@@ -2,7 +2,6 @@ const Conversation = require("../src/domain/conversation");
 const Message = require("../src/domain/message");
 const User = require("../src/domain/user");
 const generateContactNumber = require("../src/utils/generateContactNumber");
-const { encrypt } = require("../src/utils/crypto");
 
 async function seed() {
   //users
